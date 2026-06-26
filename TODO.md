@@ -30,6 +30,9 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 
 - [ ] Voorbeeld: extra coins toevoegen aan de analyse
 - [ ] Voorbeeld: kleuren/uiterlijk van de app aanpassen
+- [ ] Naam voor de app bedenken
+- [ ] Inloggen? Zo ja, database?
+- [ ] Wens: portfolio uit eToro kunnen halen zodat je je trades niet zelf hoeft in te vullen
 
 ## 🛠️ Te doen
 
@@ -37,6 +40,11 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 - [ ] Volledig omschrijven naar Android App en Desktop versie er uit bouwen.
 - [ ] eToro API integratie en mogelijkheden uitwerken.
 - [ ] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
+- [ ] Copy trading uitwerken, makkelijkere stappen
+- [ ] Onboarding van de app
+- [ ] Volledig app design maken
+- [ ] Naam van de app bedenken
+- [ ] Account? Vrienden?
 
 ## 🐛 Bugs / dingen die kapot zijn
 
