@@ -28,8 +28,8 @@ All analysis runs **on the device** (no server). Only fresh market data is
 fetched live from free public sources (**Binance** + **CoinGecko**). Traders and
 trades are stored locally (`localStorage`).
 
-There is also a **desktop/dev companion** (a Python Flask app in `src/`) used to
-run the same analysis from a browser at `http://localhost:8765`.
+There is also a **desktop/dev companion** (a Python stdlib HTTP-server app in
+`src/`) used to run the same analysis from a browser at `http://localhost:8765`.
 
 - **App id / name:** `com.kevinhelgers.cryptocopytrading` — "Crypto Copy-Trading"
 - **Platform:** Android (Capacitor 6, WebView). One HTML/CSS/JS frontend.
@@ -42,14 +42,14 @@ run the same analysis from a browser at `http://localhost:8765`.
 | Part | Tech |
 |------|------|
 | Mobile app | Capacitor 6 (`@capacitor/core`, `@capacitor/android`, `@capacitor/local-notifications`), single-page HTML/CSS/JS in `mobile/www` |
-| Desktop/dev tool | Python (Flask) in `src/` — `app.py`, `app_ui.py`, `crypto_analyzer.py`, `etoro_auditor.py`, `coin_info.py`, `daily_report.py` |
+| Desktop/dev tool | Python (stdlib `http.server`) in `src/` — `app.py`, `app_ui.py`, `crypto_analyzer.py`, `etoro_auditor.py`, `coin_info.py`, `daily_report.py` |
 | Market data | Binance + CoinGecko (free public APIs) |
 | Storage | `localStorage` (trades, traders, settings) |
 | Notifications | Native Android via `@capacitor/local-notifications` |
 
 ```
 mobile/        Capacitor Android app (www = the live frontend)
-src/           Python analysis engine + Flask dev UI
+src/           Python analysis engine + stdlib HTTP-server dev UI
 docs/          Plans + Dutch design-context doc
 reports/       Generated daily reports
 data/          Local data (gitignored)
