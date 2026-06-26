@@ -33,9 +33,10 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 
 ## 🛠️ Te doen
 
-- [ ] Project lokaal kunnen draaien (desktop): venv aanmaken + `python src/app.py` testen op http://localhost:8765
-- [ ] Begrijpen wat de "score" (0–100) van een coin betekent (zie `crypto_analyzer.py`)
-- [ ] Een eerste dagrapport genereren met `python src/daily_report.py` en bekijken in `reports/`
+- [ ] Begrijpen wat de "score" (0–100) van een coin betekent (zie `crypto_analyzer.py`) met uitleg in de app.
+- [ ] Volledig omschrijven naar Android App en Desktop versie er uit bouwen.
+- [ ] eToro API integratie en mogelijkheden uitwerken.
+- [ ] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
 
 ## 🐛 Bugs / dingen die kapot zijn
 
