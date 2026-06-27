@@ -22,10 +22,8 @@ gewoon een nieuwe regel die begint met `- [ ]`.
 
 _(Verplaats hier de taak waar we op dit moment aan werken, zodat we het overzicht houden.)_
 
-- [ ] **Overstap naar een echte native app.** Besluit: **React Native + Expo (TypeScript)**
-  — zie [`docs/native-app-techniekkeuze.md`](docs/native-app-techniekkeuze.md). Kevin
-  bekijkt de UX/UI-pointers in dat document. Eerstvolgende stap: kale Expo-app opzetten
-  en lokaal een installeerbare APK bouwen (eenmalig JDK 17 installeren; Android-SDK staat er al).
+- [ ] **Analyse-engine porten:** `engine.js` overzetten naar de Expo-app (`app/`) in TypeScript.
+  Python `src/` blijft de referentie/"bron van waarheid" voor de berekeningen.
 
 ## 💡 Ideeën / wensen
 
@@ -38,7 +36,7 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 ## 🛠️ Te doen
 
 ### Migratie naar native app (React Native + Expo)
-- [ ] Kale Expo-app opzetten + lokaal een installeerbare APK bouwen (bewijs dat de gratis bouw-/sideload-loop werkt). Eenmalig JDK 17 installeren.
+- [x] Kale Expo-app opzetten + lokaal een installeerbare APK bouwen (bewijs dat de gratis bouw-/sideload-loop werkt). JDK 17 bleek niet nodig — Android Studio's JBR (OpenJDK 21) volstaat. Project staat in `app/`, gebouwd vanuit `D:\dev\crypto-market`.
 - [ ] Analyse-engine porten: `engine.js` overzetten naar de Expo-app (TypeScript). Python `src/` blijft de referentie/"bron van waarheid" voor de berekeningen.
 - [ ] Schermen (her)bouwen op basis van Kevin's UX/UI-keuzes: Marktanalyse, Grote kansen, Mijn Trades, eToro-traders, onboarding.
 - [ ] Pushmeldingen + lokale opslag aansluiten (`expo-notifications`, `expo-sqlite`).
@@ -49,7 +47,7 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 - [ ] eToro API integratie en mogelijkheden uitwerken.
 - [ ] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
 - [ ] Copy trading uitwerken, makkelijkere stappen
-- [ ] Onboarding van de app
+- [ ] User Onboarding in de app
 - [ ] Volledig app design maken (Kevin — UX/UI; zie pointers in `docs/native-app-techniekkeuze.md`)
 - [ ] Naam van de app bedenken
 - [ ] Account? Vrienden?
@@ -66,3 +64,4 @@ _(Afgevinkte taken mogen hierheen verhuizen, zodat we kunnen terugzien wat we al
 
 - [x] TODO-lijst aangemaakt 🎉
 - [x] Techniekkeuze native app onderzocht → **React Native + Expo** ([`docs/native-app-techniekkeuze.md`](docs/native-app-techniekkeuze.md))
+- [x] Kale Expo-app gebouwd en via ADB geverifieerd op emulator ("Hallo wereld — Crypto Markt — app werkt!"). Project verplaatst naar `D:\dev\crypto-market` (lokaal, geen netwerkdrive).
