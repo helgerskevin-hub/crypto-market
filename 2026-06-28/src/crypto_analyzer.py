@@ -356,6 +356,21 @@ _UITSLUITEN = {
     "WEETH", "WBETH", "RETH", "CBETH", "BSC-USD", "SOLVBTC", "LBTC",
 }
 
+# Cryptos die verhandelbaar zijn op eToro (NL/EU). Controleer etoro.com voor updates.
+_ETORO_TRADABLE = {
+    "BTC", "ETH", "XRP", "LTC", "BCH", "ETC",
+    "ADA", "SOL", "DOT", "AVAX", "ATOM", "BNB", "TRX", "XLM",
+    "ALGO", "VET", "HBAR", "XTZ", "NEAR", "FTM", "ICP", "FLOW",
+    "APT", "SUI", "TON", "INJ", "SEI",
+    "MATIC", "OP", "ARB",
+    "LINK", "UNI", "AAVE", "COMP", "MKR", "SNX", "YFI", "CRV", "SUSHI",
+    "1INCH", "ZRX", "GRT", "ENJ", "MANA", "SAND",
+    "AXS", "CHZ", "GALA", "IMX",
+    "DOGE", "SHIB", "PEPE",
+    "FET", "RNDR",
+    "FIL", "THETA", "BAT",
+}
+
 
 def haal_coingecko_markten(per_page: int = 250) -> list[dict]:
     """Eén CoinGecko-call met markt- en momentumdata voor de top-coins."""
@@ -457,8 +472,12 @@ def _kans_niveaus(symbool: str, prijs_fallback: float) -> dict:
     }
 
 
-def zoek_kansen(top_n: int = 10, verbose: bool = False) -> list[dict]:
-    """Scant de bredere markt (CoinGecko) op coins met groot winstpotentieel."""
+def zoek_kansen(top_n: int = 10, verbose: bool = False, alleen_etoro: bool = True) -> list[dict]:
+    """Scant de bredere markt (CoinGecko) op coins met groot winstpotentieel.
+
+    alleen_etoro=True (standaard) toont uitsluitend coins die op eToro verhandelbaar
+    zijn, zodat je altijd direct kunt handelen op wat de scanner aanbeveelt.
+    """
     markten = haal_coingecko_markten()
     kandidaten = []
     for c in markten:
@@ -466,6 +485,8 @@ def zoek_kansen(top_n: int = 10, verbose: bool = False) -> list[dict]:
         rank = c.get("market_cap_rank") or 999
         vol = c.get("total_volume") or 0
         if not sym or sym in _UITSLUITEN:
+            continue
+        if alleen_etoro and sym not in _ETORO_TRADABLE:
             continue
         if rank < 12 or rank > 260:        # geen mega-caps, geen illiquide staart
             continue

@@ -52,7 +52,7 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 ### Functioneel / inhoud
 - [ ] Begrijpen wat de "score" (0–100) van een coin betekent (zie `crypto_analyzer.py`) — uitleg in de app. **Uitgesteld:** hoort in de nieuwe native app (de mobiele frontend bestond niet meer in de checkout).
 - [ ] eToro API integratie en mogelijkheden uitwerken.
-- [ ] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
+- [x] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
 - [ ] Copy trading uitwerken, makkelijkere stappen
 - [ ] User Onboarding in de app
 - [ ] Volledig app design maken (Kevin — UX/UI; zie pointers in `docs/native-app-techniekkeuze.md`)
