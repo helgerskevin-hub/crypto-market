@@ -25,6 +25,13 @@ _(Verplaats hier de taak waar we op dit moment aan werken, zodat we het overzich
 - [ ] **Analyse-engine porten:** `engine.js` overzetten naar de Expo-app (`app/`) in TypeScript.
   Python `src/` blijft de referentie/"bron van waarheid" voor de berekeningen.
 
+## 🎨 Huisstijl & Branding
+
+- [x] EM-dashes verwijderd uit alle app-teksten (`App.tsx`, `README.md`)
+- [x] App hernoemd naar **Kader** in alle bestanden (naam, slug, package-id `com.kevinhelgers.kader`)
+- [x] Teksten en naamgeving aangepast op basis van `docs/huisstijl-kader.md` — slogan, tone of voice
+- [x] Kader-logo gegenereerd en in `app/assets/` geplaatst (icon.png 1024×1024, splash-icon.png, adaptive icons, favicon)
+
 ## 💡 Ideeën / wensen
 
 _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_

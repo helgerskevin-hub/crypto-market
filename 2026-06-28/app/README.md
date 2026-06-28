@@ -1,4 +1,4 @@
-# Crypto Markt — React Native / Expo app
+# Kader - React Native / Expo app
 
 Kale Expo-app (TypeScript). De analyse-engine komt hier naartoe zodra `engine.js` is geport.
 
@@ -37,7 +37,7 @@ REM Standalone APK (JS ingepakt, bruikbaar zonder bundler):
 
 Output: `app\build\outputs\apk\(debug|release)\app-(debug|release).apk`
 
-De release-build gebruikt de debug-keystore — prima voor persoonlijk sideloaden.
+De release-build gebruikt de debug-keystore, prima voor persoonlijk sideloaden.
 
 ## Installeren via ADB
 

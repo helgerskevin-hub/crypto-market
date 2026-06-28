@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hallo wereld 👋</Text>
-      <Text style={styles.subtitle}>Crypto Markt — app werkt!</Text>
+      <Text style={styles.title}>Kader</Text>
+      <Text style={styles.subtitle}>Structuur in crypto.</Text>
       <StatusBar style="auto" />
     </View>
   );
