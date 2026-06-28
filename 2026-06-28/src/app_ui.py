@@ -92,6 +92,21 @@ HTML = r"""<!DOCTYPE html>
   @keyframes sp{to{transform:rotate(360deg)}}
   .bar{height:6px;background:var(--panel2);border-radius:4px;overflow:hidden;margin-top:6px}
   .bar > i{display:block;height:100%;background:var(--green)}
+  .scorebalk{height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;margin:5px 0 7px}
+  .scorebalk>i{display:block;height:100%;border-radius:5px;transition:width .4s}
+  .sbar-groen{background:linear-gradient(90deg,#1d5235,#22c55e)}
+  .sbar-blauw{background:linear-gradient(90deg,#1d3f66,#3b82f6)}
+  .sbar-grijs{background:#353c47}
+  .signaal-tag{display:inline-block;font-size:11px;background:#1c2d1e;color:#5ee08a;
+               border:1px solid #1d5235;border-radius:5px;padding:2px 7px;margin:2px 3px 2px 0}
+  .uitleg-input{width:100%;padding:9px 11px;border-radius:9px;border:1px solid var(--line);
+                background:var(--panel2);color:var(--txt);font-size:15px;font-family:inherit;margin-top:4px}
+  .uitleg-input:focus{outline:none;border-color:var(--accent)}
+  .sim-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .sim-row:last-child{border-bottom:none}
+  .sim-row input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--accent)}
+  .sim-row label{flex:1;font-size:14px;cursor:pointer}
+  .sim-punten{font-size:13px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1d2532;
          border:1px solid var(--line);padding:12px 20px;border-radius:10px;opacity:0;transition:.3s;z-index:50}
   .toast.toon{opacity:1}
@@ -262,6 +277,63 @@ HTML = r"""<!DOCTYPE html>
         <p style="margin:12px 0 0;font-size:13px;color:var(--dim)">Voorbeeld: ATR = $500. Entry = $10.000. Stop loss = $9.250 (−$750). Take profit = $11.500 (+$1.500). R/R = 2:1.</p>
       </div>
 
+      <!-- Interactieve score-simulator -->
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 4px;font-size:15px">🧮 Score-simulator</h3>
+        <p style="margin:0 0 14px;font-size:13px;color:var(--dim)">Vink aan welke signalen aanwezig zijn — zie direct hoe de score opgebouwd wordt.</p>
+        <div id="sim-rijen">
+          <div class="sim-row"><input type="checkbox" id="sim1" data-pts="25"><label for="sim1">EMA 20 &gt; EMA 50 — opwaartse trend</label><span class="sim-punten">+25 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim2" data-pts="15"><label for="sim2">Prijs boven EMA 20 — momentum bevestigd</label><span class="sim-punten">+15 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim3" data-pts="20"><label for="sim3">RSI 45–68 — gezonde zone (niet overbought)</label><span class="sim-punten">+20 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim3b" data-pts="10"><label for="sim3b">RSI &lt; 35 — oversold, mogelijke bounce (alternatief)</label><span class="sim-punten">+10 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim4" data-pts="20"><label for="sim4">MACD boven signaallijn — trend bevestigd</label><span class="sim-punten">+20 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim4b" data-pts="5"><label for="sim4b">MACD histogram positief (extra bevestiging)</label><span class="sim-punten">+5 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim5" data-pts="15"><label for="sim5">Volume spike ≥ 1,5× gemiddelde — sterke interesse</label><span class="sim-punten">+15 pts</span></div>
+          <div class="sim-row"><input type="checkbox" id="sim5b" data-pts="8"><label for="sim5b">Verhoogd volume 1,2–1,5× (alternatief)</label><span class="sim-punten">+8 pts</span></div>
+        </div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:13px;color:var(--dim)">Score</span>
+            <span id="sim-getal" style="font-size:24px;font-weight:800">0</span>
+          </div>
+          <div class="scorebalk"><i id="sim-balk" class="sbar-grijs" style="width:0%"></i></div>
+          <div id="sim-label" style="font-size:13px;color:var(--dim);margin-top:6px">Vink signalen aan om de score te berekenen</div>
+        </div>
+      </div>
+
+      <!-- Interactieve ATR-rekenmachine -->
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 4px;font-size:15px">🔢 ATR-rekenmachine</h3>
+        <p style="margin:0 0 14px;font-size:13px;color:var(--dim)">Vul een prijs en ATR in om te zien wat de stop loss en take profit worden.</p>
+        <div class="form-grid" style="gap:12px">
+          <div><label style="font-size:13px;color:var(--dim);font-weight:600">Entry-prijs ($)</label>
+            <input class="uitleg-input" id="atr-entry" type="number" step="any" placeholder="bv. 65000"></div>
+          <div><label style="font-size:13px;color:var(--dim);font-weight:600">ATR ($)</label>
+            <input class="uitleg-input" id="atr-atr" type="number" step="any" placeholder="bv. 2500"></div>
+        </div>
+        <div id="atr-uitvoer" style="margin-top:14px;display:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px">
+            <div style="background:var(--panel2);border-radius:9px;padding:12px;text-align:center">
+              <div style="font-size:11px;color:var(--dim);margin-bottom:4px">ENTRY-ZONE</div>
+              <div id="atr-elaag" style="font-size:14px;font-weight:700"></div>
+              <div style="font-size:11px;color:var(--dim)">t/m</div>
+              <div id="atr-ehoog" style="font-size:14px;font-weight:700"></div>
+            </div>
+            <div style="background:#3a1418;border:1px solid #5a2026;border-radius:9px;padding:12px;text-align:center">
+              <div style="font-size:11px;color:#ff7a7a;margin-bottom:4px">🛑 STOP LOSS</div>
+              <div id="atr-stop" style="font-size:18px;font-weight:800;color:#ff7a7a"></div>
+              <div id="atr-stop-afstand" style="font-size:11px;color:var(--dim);margin-top:3px"></div>
+            </div>
+            <div style="background:#0f2d1a;border:1px solid #1d5235;border-radius:9px;padding:12px;text-align:center">
+              <div style="font-size:11px;color:#5ee08a;margin-bottom:4px">🎯 TAKE PROFIT</div>
+              <div id="atr-tp" style="font-size:18px;font-weight:800;color:#5ee08a"></div>
+              <div id="atr-tp-afstand" style="font-size:11px;color:var(--dim);margin-top:3px"></div>
+            </div>
+          </div>
+          <p id="atr-rr" style="margin:10px 0 0;font-size:13px;color:var(--dim);text-align:center"></p>
+        </div>
+      </div>
+
       <div class="card" style="margin-bottom:18px">
         <h3 style="margin:0 0 10px;font-size:15px">📡 Waar komen de gegevens vandaan?</h3>
         <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.9">
@@ -407,6 +479,9 @@ function kaartAnalyse(t){
             : t.signaal==="KOOP" ? '<span class="badge b-blauw">KOOP</span>'
             : '<span class="badge b-grijs">WATCH</span>';
   const data = encodeURIComponent(JSON.stringify({symbool:t.symbool,entry:t.entry,stop_loss:t.stop_loss,take_profit:t.take_profit}));
+  const scoreKleur = t.score>=75 ? 'var(--green)' : t.score>=55 ? 'var(--blue)' : 'var(--grijs)';
+  const scoreKlas  = t.score>=75 ? 'sbar-groen' : t.score>=55 ? 'sbar-blauw' : 'sbar-grijs';
+  const reden_tags = (t.redenen||[]).map(r=>`<span class="signaal-tag">✓ ${r}</span>`).join('');
   return `<div class="card ${t.high_conviction?'hc':''}">
     <div class="rij-top"><span class="sym">${t.symbool}</span>${sig}</div>
     ${verdictBadge(t.oordeel)}
@@ -415,8 +490,15 @@ function kaartAnalyse(t){
     <div class="lvl"><span>🛑 Stop loss</span><b style="color:var(--red)">${fmt(t.stop_loss)}</b></div>
     <div class="lvl"><span>🎯 Take profit</span><b style="color:var(--green)">${fmt(t.take_profit)}</b></div>
     <div class="lvl"><span>Risk / Reward</span><b>1:${t.rr}</b></div>
-    <div class="lvl"><span>Signaalscore · RSI</span><b>${t.score}/100 · ${t.rsi}</b></div>
-    ${infoBlok(t.info, t.oordeel, (t.redenen||[]).join(", ")+" · data: "+t.bron)}
+    <div style="margin:10px 0 4px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--dim)">
+        <span>Signaalscore <span style="font-size:11px">(RSI: ${t.rsi})</span></span>
+        <b style="color:${scoreKleur}">${t.score}/100</b>
+      </div>
+      <div class="scorebalk"><i class="${scoreKlas}" style="width:${t.score}%"></i></div>
+      <div style="margin-top:6px">${reden_tags}</div>
+    </div>
+    ${infoBlok(t.info, t.oordeel, "data: "+t.bron)}
     <div style="display:flex;gap:8px;margin-top:12px">
       <button class="btn btn-mini" style="flex:1" onclick="markeerGetrade('${data}')">✅ Getrade</button>
       <button class="btn btn-sec btn-mini" onclick="naarMijnTrades('${data}')">✏️ Aanpassen</button>
@@ -669,6 +751,71 @@ function kaartTrader(b){
   </div>`;
 }
 async function verwijderTrader(id){ toonTraders(await api("/api/traders/delete",{id})); }
+
+// ---------- UITLEG: SCORE-SIMULATOR ----------
+(function(){
+  const labels = {
+    sim1:'EMA20>EMA50', sim2:'Prijs>EMA20', sim3:'RSI gezond', sim3b:'RSI oversold',
+    sim4:'MACD bullish', sim4b:'MACD histogram', sim5:'Volume spike', sim5b:'Volume verhoogd'
+  };
+  function bereken(){
+    let score = 0;
+    document.querySelectorAll('#sim-rijen input[type=checkbox]').forEach(cb=>{
+      if(cb.checked) score += parseInt(cb.dataset.pts);
+    });
+    score = Math.min(score, 100);
+    const getal = document.getElementById('sim-getal');
+    const balk  = document.getElementById('sim-balk');
+    const lbl   = document.getElementById('sim-label');
+    if(!getal) return;
+    getal.textContent = score + '/100';
+    balk.style.width = score + '%';
+    if(score >= 75){
+      getal.style.color = 'var(--green)';
+      balk.className = 'sbar-groen';
+      lbl.innerHTML = '⭐ <b style="color:var(--green)">HIGH CONVICTION</b> — sterkst mogelijke kans. Alle seinen staan op groen.';
+    } else if(score >= 55){
+      getal.style.color = 'var(--blue)';
+      balk.className = 'sbar-blauw';
+      lbl.innerHTML = '🟦 <b style="color:var(--blue)">KOOP-signaal</b> — meerdere indicatoren groen, degelijk instapmoment.';
+    } else {
+      getal.style.color = 'var(--dim)';
+      balk.className = 'sbar-grijs';
+      lbl.innerHTML = '⬜ <b style="color:var(--dim)">WATCH</b> — te weinig bevestiging. Coin verschijnt niet in de resultaten.';
+    }
+  }
+  document.querySelectorAll('#sim-rijen input[type=checkbox]').forEach(cb=>cb.addEventListener('change', bereken));
+})();
+
+// ---------- UITLEG: ATR-REKENMACHINE ----------
+(function(){
+  function berekenAtr(){
+    const entry = parseFloat(document.getElementById('atr-entry').value);
+    const atr   = parseFloat(document.getElementById('atr-atr').value);
+    const uitvoer = document.getElementById('atr-uitvoer');
+    if(!(entry>0) || !(atr>0)){ uitvoer.style.display='none'; return; }
+    const sl = entry - 1.5 * atr;
+    const tp = entry + 3.0 * atr;
+    const risk   = entry - sl;
+    const reward = tp - entry;
+    const rr = (reward/risk).toFixed(1);
+    const dp = entry >= 1000 ? 2 : entry >= 1 ? 4 : 6;
+    const f = v => '$' + v.toFixed(dp).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const pct = v => (v>=0?'+':'')+v.toFixed(1)+'%';
+    document.getElementById('atr-elaag').textContent = f(entry - 0.2*atr);
+    document.getElementById('atr-ehoog').textContent = f(entry + 0.2*atr);
+    document.getElementById('atr-stop').textContent  = f(sl);
+    document.getElementById('atr-tp').textContent    = f(tp);
+    document.getElementById('atr-stop-afstand').textContent = pct(-risk/entry*100) + ' van entry';
+    document.getElementById('atr-tp-afstand').textContent   = pct(reward/entry*100) + ' van entry';
+    document.getElementById('atr-rr').textContent = `Risk: ${f(risk)} · Reward: ${f(reward)} · R/R = 1:${rr}`;
+    uitvoer.style.display = 'block';
+  }
+  ['atr-entry','atr-atr'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.addEventListener('input', berekenAtr); el.addEventListener('change', berekenAtr); }
+  });
+})();
 
 // init
 $("#klok").textContent = new Date().toLocaleTimeString("nl-NL",{hour:"2-digit",minute:"2-digit"});
