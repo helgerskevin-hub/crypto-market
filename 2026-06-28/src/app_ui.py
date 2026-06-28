@@ -335,6 +335,24 @@ HTML = r"""<!DOCTYPE html>
       </div>
 
       <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 14px;font-size:15px">🚀 Signaal uitvoeren op eToro — stap voor stap</h3>
+        <p style="margin:0 0 14px;font-size:14px;color:var(--dim)">Je hebt een signaal van de app (entry, stop loss, take profit). Zo voer je dat daadwerkelijk uit op eToro:</p>
+        <ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.0">
+          <li style="margin-bottom:11px"><b>Open eToro</b> — ga naar <em>etoro.com</em> of de eToro-app op je telefoon</li>
+          <li style="margin-bottom:11px"><b>Zoek de coin</b> — typ het symbool in de zoekbalk (bv. <code style="background:var(--panel2);padding:1px 5px;border-radius:4px">BTC</code> of <code style="background:var(--panel2);padding:1px 5px;border-radius:4px">ETH</code>) en klik op het zoekresultaat</li>
+          <li style="margin-bottom:11px"><b>Klik op "Trade"</b> — de handelskaart verschijnt rechts in beeld (of als pop-up in de app)</li>
+          <li style="margin-bottom:11px"><b>Vul het bedrag in</b> — begin klein totdat je vertrouwen in het systeem hebt; investeer alleen wat je kunt missen</li>
+          <li style="margin-bottom:11px"><b>Stel de Stop Loss in</b> — klik op het stop loss-veld, kies <em>"Prijs"</em> en vul de waarde in die de app toont <span class="badge b-rood" style="vertical-align:middle;margin-left:4px">🛑 stop loss uit app</span></li>
+          <li style="margin-bottom:11px"><b>Stel de Take Profit in</b> — klik op het take profit-veld, kies <em>"Prijs"</em> en vul de waarde in die de app toont <span class="badge b-groen" style="vertical-align:middle;margin-left:4px">🎯 take profit uit app</span></li>
+          <li style="margin-bottom:11px"><b>Leverage op ×1</b> — zorg dat de hefboom op <em>×1</em> staat (geen geleend geld; je bezit de coin zelf)</li>
+          <li style="margin-bottom:0"><b>Bevestig de order</b> — klik "Openen" en bewaar het bevestigde entry-bedrag; voer de trade daarna in via de <b>Mijn Trades</b>-tab zodat de app de prijs voor je bijhoudt</li>
+        </ol>
+        <div style="margin-top:16px;padding:10px 13px;background:#11243d;border:1px solid #1d3f66;border-radius:8px;font-size:13px">
+          💡 <b>Snelkoppeling:</b> klik op <em>"✅ Getrade"</em> op een analysekaart of in het Traders kopiëren-tabblad om de trade inclusief stop loss en take profit direct in <b>Mijn Trades</b> op te slaan.
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
         <h3 style="margin:0 0 10px;font-size:15px">📡 Waar komen de gegevens vandaan?</h3>
         <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.9">
           <li><b>Binance</b> — dagelijkse candlestick-data (gratis publieke API, geen account nodig)</li>

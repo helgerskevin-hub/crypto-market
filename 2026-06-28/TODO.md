@@ -62,7 +62,7 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 ### Functioneel / inhoud
 - [ ] **Live prijs-polling** op de Mijn Trades-pagina: automatisch vernieuwen elke 60 seconden (net als desktop-versie)
 - [ ] **eToro API** onderzoeken: kunnen we tradable coins automatisch ophalen zodat de Grote Kansen-scan alleen beschikbare coins toont?
-- [ ] **Copy trading stappen** vereenvoudigen: stappenplan in de app hoe je een signaal op eToro uitvoert
+- [x] **Copy trading stappen** vereenvoudigen: stappenplan in de app hoe je een signaal op eToro uitvoert
 - [ ] **Portfoliosamenvatting**: totale inleg, huidige waarde en winst/verlies zichtbaar op het Mijn Trades-scherm
 
 ### Kwaliteit & stabiliteit
