@@ -119,6 +119,7 @@ HTML = r"""<!DOCTYPE html>
       <button class="subtab actief" data-sub="markt">📊 Marktanalyse</button>
       <button class="subtab" data-sub="copy">👥 Traders kopiëren</button>
       <button class="subtab" data-sub="kansen">🚀 Grote kansen</button>
+      <button class="subtab" data-sub="uitleg">📖 Hoe werkt dit?</button>
     </div>
 
     <!-- sub: marktanalyse -->
@@ -153,6 +154,126 @@ HTML = r"""<!DOCTYPE html>
       <p style="font-size:12.5px;color:var(--orange);margin-top:14px;background:#2a1f0e;border:1px solid #5a431d;padding:10px 13px;border-radius:9px">
         ⚠️ Dit zijn speculatieve, volatiele coins. Ze kunnen hard stijgen maar ook hard dalen.
         Gebruik altijd de stop loss en investeer alleen wat je kunt missen.</p>
+    </div>
+
+    <!-- sub: hoe werkt dit? -->
+    <div class="subview" id="sub-uitleg">
+      <h2>Hoe werkt de analyse?</h2>
+      <p class="sub">De app berekent voor elke coin een <b>score van 0 tot 100</b> op basis van vijf
+         technische indicatoren. Hieronder zie je precies wat elke indicator meet, hoeveel punten
+         hij oplevert en hoe de stop loss en take profit worden berekend.</p>
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 14px;font-size:15px">📊 Scorekaart — wat levert wat op?</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Indicator</th>
+              <th class="num">Max. punten</th>
+              <th>Wat meet het?</th>
+              <th>Wanneer punten?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>EMA 20 &gt; EMA 50</b></td>
+              <td class="num">25</td>
+              <td>Opwaartse trend (snelle lijn boven trage lijn)</td>
+              <td>Altijd als de 20-daagse EMA boven de 50-daagse staat</td>
+            </tr>
+            <tr>
+              <td><b>Prijs &gt; EMA 20</b></td>
+              <td class="num">15</td>
+              <td>Momentum bevestiging</td>
+              <td>Als de huidige prijs boven het 20-daagse gemiddelde uitkomt</td>
+            </tr>
+            <tr>
+              <td><b>RSI (gezond)</b></td>
+              <td class="num">20</td>
+              <td>Kracht van de beweging (0–100)</td>
+              <td>+20 als RSI tussen 45 en 68 (niet overgebought), +10 als RSI &lt; 35 (oversold, mogelijke bounce)</td>
+            </tr>
+            <tr>
+              <td><b>MACD bullish</b></td>
+              <td class="num">25</td>
+              <td>Trendbevestiging op middellange termijn</td>
+              <td>+20 als MACD-lijn boven signaallijn, +5 extra als histogram positief is</td>
+            </tr>
+            <tr>
+              <td><b>Volume spike</b></td>
+              <td class="num">15</td>
+              <td>Marktinteresse / institutionele activiteit</td>
+              <td>+15 als volume ≥ 1,5× het 20-daags gemiddelde, +8 als ≥ 1,2×</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><b>Totaal</b></td>
+              <td class="num"><b>100</b></td>
+              <td colspan="2" style="color:var(--dim)">Score wordt afgekapt op 100</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 14px;font-size:15px">🎯 Wat betekent de score?</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+          <div style="background:#0f2d1a;border:1px solid #1d5235;border-radius:10px;padding:14px">
+            <div style="font-size:22px;font-weight:800;color:#5ee08a">75–100</div>
+            <div style="font-weight:700;color:#5ee08a;margin-bottom:4px">HIGH CONVICTION ⭐</div>
+            <div style="font-size:13px;color:#8b949e">Alle indicatoren wijzen dezelfde kant op. EMA-trend, MACD en volume bevestigen elkaar. Sterkste kansen.</div>
+          </div>
+          <div style="background:#11243d;border:1px solid #1d3f66;border-radius:10px;padding:14px">
+            <div style="font-size:22px;font-weight:800;color:#74b1ff">55–74</div>
+            <div style="font-weight:700;color:#74b1ff;margin-bottom:4px">KOOP-signaal</div>
+            <div style="font-size:13px;color:#8b949e">Meerdere indicatoren groen. Degelijk instapmoment, maar niet alle seinen staan op groen.</div>
+          </div>
+          <div style="background:#1c2230;border:1px solid #2a3140;border-radius:10px;padding:14px">
+            <div style="font-size:22px;font-weight:800;color:#9aa4b1">0–54</div>
+            <div style="font-weight:700;color:#9aa4b1;margin-bottom:4px">WATCH</div>
+            <div style="font-size:13px;color:#8b949e">Te weinig bevestiging. Coin verschijnt niet in de resultatentabel — je hoeft er niets mee te doen.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 14px;font-size:15px">📐 Hoe worden stop loss en take profit berekend?</h3>
+        <p style="margin:0 0 12px;font-size:14px">De app gebruikt <b>ATR</b> (Average True Range) — een maat voor hoe wild een coin
+           de afgelopen 14 dagen bewoog. Daarmee worden de niveaus dynamisch ingesteld,
+           zodat een volatiele coin een bredere stop krijgt dan een rustige coin.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px">
+          <div style="background:var(--panel2);border-radius:9px;padding:13px;text-align:center">
+            <div style="font-size:12px;color:var(--dim);margin-bottom:5px">ENTRY</div>
+            <div style="font-size:18px;font-weight:700">Huidige prijs</div>
+            <div style="font-size:12px;color:var(--dim);margin-top:4px">± 0,2 × ATR</div>
+          </div>
+          <div style="background:#3a1418;border:1px solid #5a2026;border-radius:9px;padding:13px;text-align:center">
+            <div style="font-size:12px;color:#ff7a7a;margin-bottom:5px">STOP LOSS</div>
+            <div style="font-size:18px;font-weight:700;color:#ff7a7a">Entry − 1,5 × ATR</div>
+            <div style="font-size:12px;color:var(--dim);margin-top:4px">Risicobeheer</div>
+          </div>
+          <div style="background:#0f2d1a;border:1px solid #1d5235;border-radius:9px;padding:13px;text-align:center">
+            <div style="font-size:12px;color:#5ee08a;margin-bottom:5px">TAKE PROFIT</div>
+            <div style="font-size:18px;font-weight:700;color:#5ee08a">Entry + 3,0 × ATR</div>
+            <div style="font-size:12px;color:var(--dim);margin-top:4px">Risk/Reward ≥ 1:2</div>
+          </div>
+        </div>
+        <p style="margin:12px 0 0;font-size:13px;color:var(--dim)">Voorbeeld: ATR = $500. Entry = $10.000. Stop loss = $9.250 (−$750). Take profit = $11.500 (+$1.500). R/R = 2:1.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin:0 0 10px;font-size:15px">📡 Waar komen de gegevens vandaan?</h3>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.9">
+          <li><b>Binance</b> — dagelijkse candlestick-data (gratis publieke API, geen account nodig)</li>
+          <li><b>CoinGecko</b> — fallback als Binance tijdelijk onbereikbaar is</li>
+          <li>Geen enkele berekening wordt op een externe server gedaan — alles loopt lokaal op jouw computer</li>
+        </ul>
+      </div>
+
+      <p style="font-size:13px;color:var(--dim);background:var(--panel);border:1px solid var(--line);padding:12px 14px;border-radius:9px">
+        ℹ️ De indicatoren (RSI, EMA, MACD, ATR) zijn industrie-standaard technische analyse tools.
+        Ze voorspellen niets — ze beschrijven het huidig momentum. Gebruik ze altijd samen met je eigen oordeel.</p>
     </div>
 
     <p class="disc">⚠️ Geen financieel advies. Trades zijn technische signalen ter ondersteuning van je eigen onderzoek.

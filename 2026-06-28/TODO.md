@@ -24,6 +24,7 @@ _(Verplaats hier de taak waar we op dit moment aan werken, zodat we het overzich
 
 - [ ] **Analyse-engine porten:** `engine.js` overzetten naar de Expo-app (`app/`) in TypeScript.
   Python `src/` blijft de referentie/"bron van waarheid" voor de berekeningen.
+- [ ] **Analyse-uitleg voor de gebruiker:** maak duidelijk hoe de score (0-100), stop loss en take profit berekend worden. Branch: `feat/analyse-uitleg-ui`. Oplossing: nieuwe "Hoe werkt dit?" subtab in de web-app (`src/app_ui.py`) met uitleg per indicator, scorekaart en ATR-berekening.
 
 ## 🎨 Huisstijl & Branding
 
@@ -36,7 +37,6 @@ _(Verplaats hier de taak waar we op dit moment aan werken, zodat we het overzich
 
 _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 
-- [ ] Naam voor de app bedenken
 - [ ] Inloggen? Zo ja, database?
 - [ ] Wens: portfolio uit eToro kunnen halen zodat je je trades niet zelf hoeft in te vullen
 
@@ -50,13 +50,11 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 - [ ] Desktop-versie (Python web-UI: `app.py` + `app_ui.py`) uitfaseren/verwijderen zodra de native app de functies overneemt.
 
 ### Functioneel / inhoud
-- [ ] Begrijpen wat de "score" (0–100) van een coin betekent (zie `crypto_analyzer.py`) — uitleg in de app. **Uitgesteld:** hoort in de nieuwe native app (de mobiele frontend bestond niet meer in de checkout).
 - [ ] eToro API integratie en mogelijkheden uitwerken.
-- [ ] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
+- [x] Grote Kansen laat nu ook niet tradable coins zien bij eToro. Wellicht mogelijk met API de scan te filteren op enkel tradable coins
 - [ ] Copy trading uitwerken, makkelijkere stappen
 - [ ] User Onboarding in de app
 - [ ] Volledig app design maken (Kevin — UX/UI; zie pointers in `docs/native-app-techniekkeuze.md`)
-- [ ] Naam van de app bedenken
 - [ ] Account? Vrienden?
 
 ## 🐛 Bugs / dingen die kapot zijn
