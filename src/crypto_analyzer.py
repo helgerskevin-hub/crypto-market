@@ -85,6 +85,7 @@ MIN_RISK_REWARD = 2.0          # minimaal 1:2
 REWARD_MULTIPLIER = 3.0        # take profit = entry + 3 * ATR  (=> R/R 2.0 bij 1.5 ATR stop)
 
 HIGH_CONVICTION_SCORE = 75     # drempel voor "HIGH CONVICTION"
+KOOP_SCORE = 55                # drempel waarboven het signaal "KOOP" wordt (anders "WATCH")
 HTTP_TIMEOUT = 15
 HEADERS = {"User-Agent": "crypto-copy-trading-analyzer/1.0"}
 
@@ -284,7 +285,7 @@ def analyseer_coin(symbool: str) -> dict | None:
     if rr < MIN_RISK_REWARD - 1e-9:
         return None  # filter: alleen trades met minimaal 1:2 (tolerant voor float-afronding)
 
-    signaal_tekst = "KOOP" if score >= 55 else "WATCH"
+    signaal_tekst = "KOOP" if score >= KOOP_SCORE else "WATCH"
     high_conviction = (
         score >= HIGH_CONVICTION_SCORE
         and ema20_nu > ema50_nu
@@ -510,6 +511,30 @@ def _fmt(p: float) -> str:
     return f"${p:,.5f}"
 
 
+def score_uitleg() -> str:
+    """
+    Geeft een korte Nederlandse uitleg van wat de score (0-100) betekent.
+
+    De score wordt opgebouwd uit losse technische signalen; hoe meer
+    bullish signalen, hoe hoger de score. Hieronder staan de punten per
+    signaal en wat de drempels betekenen. Wordt onder de tabel getoond en
+    kan worden hergebruikt in de app.
+    """
+    return (
+        "Wat betekent de score (0-100)?\n"
+        "De score telt bullish signalen bij elkaar op — hoe hoger, hoe sterker de opzet:\n"
+        "  • +25  opwaartse trend (EMA20 boven EMA50)\n"
+        "  • +15  prijs boven EMA20 (momentum bevestigd)\n"
+        "  • +20  RSI in gezonde zone (45-68)  /  +10  RSI oversold (<35, mogelijke bounce)\n"
+        "  • +20  MACD bullish (+5 extra als het histogram positief is)\n"
+        "  • +15  volume spike (>=1.5x)  /  +8  verhoogd volume (>=1.2x)\n"
+        f"Drempels: score >= {KOOP_SCORE} -> signaal 'KOOP' (anders 'WATCH'); "
+        f"score >= {HIGH_CONVICTION_SCORE} met trend + MACD + volume mee -> 'HIGH CONVICTION'.\n"
+        "Let op: dit is een technisch signaal, geen financieel advies — "
+        "check altijd de live prijs op eToro."
+    )
+
+
 def print_tabel(trades: list[dict]) -> None:
     """Print een nette tabel met de trades."""
     if not trades:
@@ -545,6 +570,12 @@ def print_tabel(trades: list[dict]) -> None:
             sig = "HIGH CONVICTION" if t["high_conviction"] else t["signaal"]
             print(f"{t['symbool']:<8}{_fmt(t['entry']):<14}{_fmt(t['stop_loss']):<12}"
                   f"{_fmt(t['take_profit']):<12}1:{t['rr']:<5.1f}{t['score']:<7}{sig}")
+
+    # Korte legenda zodat duidelijk is wat de score-kolom betekent.
+    if _console:
+        _console.print(f"\n[dim]{score_uitleg()}[/dim]")
+    else:
+        print(f"\n{score_uitleg()}")
 
 
 def main():
