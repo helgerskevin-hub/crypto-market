@@ -56,7 +56,7 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
   - [x] **eToro Traders-scherm** — traders toevoegen, beoordelen (GROEN/GEEL/ROOD) en hun posities bekijken
   - [x] **Onboarding-scherm** — eerste-keer uitleg: wat is de app, hoe werkt een stop loss, disclaimer
 - [x] Lokale opslag aansluiten (AsyncStorage) voor traders en eigen posities
-- [ ] Pushmeldingen inschakelen (`expo-notifications`): seintje als stop loss of take profit van een eigen trade geraakt wordt
+- [x] Pushmeldingen inschakelen (`expo-notifications`): seintje als stop loss of take profit van een eigen trade geraakt wordt
 - [ ] Desktop-versie (Python `app.py` + `app_ui.py`) uitfaseren zodra de native app alle functies overneemt
 
 ### Functioneel / inhoud

@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../theme/colors';
 import { Font, Size } from '../theme/typography';
 import { fmtPrijs, haalLivePrijs } from '../engine/cryptoAnalyzer';
+import { controleerAlleOpenTrades } from '../notifications/notifications';
 import {
   OpenTrade, GeslotenTrade,
   laadOpenTrades, laadGeslotenTrades,
@@ -77,6 +78,7 @@ export default function PortfolioScreen() {
     setLivePrijzen(nieuw);
     setBijgewerktOm(new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }));
     setLadenPrijzen(false);
+    controleerAlleOpenTrades().catch(() => {});
   }, [openTrades, livePrijzen]);
 
   // Auto-refresh every 60s

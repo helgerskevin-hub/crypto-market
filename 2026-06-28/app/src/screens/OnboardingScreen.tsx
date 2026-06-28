@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../theme/colors';
 import { Font, Size } from '../theme/typography';
 import { markeerOnboardingGedaan } from '../storage/storage';
+import { vraagMeldingToestemming } from '../notifications/notifications';
 
 const { width } = Dimensions.get('window');
 
@@ -15,6 +16,7 @@ interface Stap {
   body: string;
   knop: string;
   disclaimer?: boolean;
+  meldingen?: boolean;
 }
 
 const STAPPEN: Stap[] = [
@@ -35,6 +37,13 @@ const STAPPEN: Stap[] = [
     titel: 'Altijd een stop loss',
     body: 'Iedere setup heeft een kant-en-klare stop loss en take profit gebaseerd op de ATR (volatiliteit van die coin).\n\nDe Risk/Reward is altijd minimaal 1:2 — je riskeert maximaal de helft van wat je kunt winnen.\n\nZet bij iedere trade de stop loss in eToro in. Zonder stop loss ben je gokker, geen trader.',
     knop: 'Volgende →',
+  },
+  {
+    emoji: '🔔',
+    titel: 'Meldingen inschakelen',
+    body: 'Kader waarschuwt je als een open trade de stop loss of take profit bereikt — ook als je de app niet open hebt.\n\nJe krijgt een melding voor:\n• VERKOOP NU — stop loss geraakt\n• NEEM WINST — take profit bereikt\n• LET OP / OVERWEEG WINST — nadert een niveau\n\nMeldingen zijn altijd uit te zetten in je telefooninstellingen.',
+    knop: 'Meldingen inschakelen →',
+    meldingen: true,
   },
   {
     emoji: '⚠️',
@@ -61,6 +70,9 @@ export default function OnboardingScreen({ onKlaar }: Props) {
   const isLaatste = stapIndex === STAPPEN.length - 1;
 
   async function volgende() {
+    if (stap.meldingen) {
+      await vraagMeldingToestemming();
+    }
     if (isLaatste) {
       await markeerOnboardingGedaan();
       onKlaar();
@@ -93,7 +105,7 @@ export default function OnboardingScreen({ onKlaar }: Props) {
 
         <View style={s.footer}>
           <TouchableOpacity
-            style={[s.knop, stap.disclaimer && s.knopDisclaimer]}
+            style={[s.knop, stap.disclaimer && s.knopDisclaimer, stap.meldingen && s.knopMeldingen]}
             onPress={volgende}
             activeOpacity={0.8}
           >
@@ -141,6 +153,7 @@ const s = StyleSheet.create({
   footer:    { paddingBottom: 16, paddingTop: 8 },
   knop:      { backgroundColor: Colors.cta, borderRadius: 14, paddingVertical: 16, alignItems: 'center' },
   knopDisclaimer: { backgroundColor: Colors.amber },
+  knopMeldingen:  { backgroundColor: Colors.green },
   knopTxt:   { fontFamily: Font.sansSb, fontSize: Size.body, color: '#fff' },
   terugKnop: { alignItems: 'center', paddingTop: 14 },
   terugTxt:  { fontFamily: Font.sans, fontSize: Size.body, color: Colors.dim },

@@ -17,6 +17,7 @@ import OnboardingScreen from './src/screens/OnboardingScreen';
 import { Colors } from './src/theme/colors';
 import { Font } from './src/theme/typography';
 import { isOnboardingGedaan } from './src/storage/storage';
+import { stelMeldingenIn, registreerAchtergrondTaak } from './src/notifications/notifications';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +37,7 @@ export default function App() {
   const [onboardingGedaan, setOnboardingGedaan] = useState<boolean | null>(null);
 
   useEffect(() => {
+    stelMeldingenIn();
     isOnboardingGedaan().then(setOnboardingGedaan);
   }, []);
 
@@ -51,7 +53,7 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <StatusBar style="dark" />
-        <OnboardingScreen onKlaar={() => setOnboardingGedaan(true)} />
+        <OnboardingScreen onKlaar={() => { setOnboardingGedaan(true); registreerAchtergrondTaak(); }} />
       </SafeAreaProvider>
     );
   }
