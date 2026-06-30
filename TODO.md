@@ -46,6 +46,7 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 ### 🎯 Kevins kernvisie voor Kader
 _(Wat de app uiteindelijk moet zijn — de rode draad achter alle keuzes)_
 
+- [ ] **Schuivende marktbalk (zoals Market Mirror)** — een horizontale balk van rood naar groen (HEAVY SELL → BALANCED → HEAVY BUY) met een schuifknop die de huidige Kader-score aangeeft. In één oogopslag zie je waar de markt staat. Zit al in de huisstijlkleuren, hoeft alleen gebouwd te worden op het marktscherm.
 - [ ] **"Wat moet ik nu kopen?"** — één duidelijk scherm dat simpel zegt welke coins op dit moment slim zijn om in te stappen. Geen ruis, geen uitleg, gewoon een aanbeveling + reden in één zin.
 - [ ] **Zo makkelijk mogelijk kopen/verkopen** — vanuit de aanbeveling direct door naar de trade. Zo min mogelijk stappen tussen "ziet er goed uit" en "gekocht". Koppeling met eToro of een exchange-API is het einddoel.
 - [ ] **Short/long met leverage** — ook hefboomposities ondersteunen in de analyse en het uitvoerscherm. Niet alleen spot. Kader moet aangeven of een coin beter geschikt is voor long of short op dat moment.
