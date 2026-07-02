@@ -22,16 +22,19 @@ import { KansenScreen } from './src/screens/KansenScreen';
 import { PortfolioScreen } from './src/screens/PortfolioScreen';
 import { TradersScreen } from './src/screens/TradersScreen';
 import { OnboardingScreen } from './src/screens/OnboardingScreen';
-import { laadVlag, bewaarVlag, SLEUTELS } from './src/storage/opslag';
+import { laadVlag, bewaarVlag, laadTekst, bewaarTekst, SLEUTELS } from './src/storage/opslag';
 import { stelDagelijkseMeldingIn } from './src/notifications/meldingen';
 import { MarktProvider } from './src/state/MarktProvider';
 import { PortfolioProvider } from './src/state/PortfolioProvider';
+import { ChangelogSheet } from './src/components/ChangelogSheet';
+import { nieuwsteVersie } from './src/changelog';
 
 function AppInhoud() {
   const { colors, donkerActief } = useTheme();
   const [onboardingKlaar, setOnboardingKlaar] = useState(false);
   const [onboardingGeladen, setOnboardingGeladen] = useState(false);
   const [actieveTab, setActieveTab] = useState<Tab>('markt');
+  const [nieuwInVersie, setNieuwInVersie] = useState(false);
 
   useEffect(() => {
     laadVlag(SLEUTELS.onboarding).then(klaar => {
@@ -40,6 +43,19 @@ function AppInhoud() {
       if (klaar) stelDagelijkseMeldingIn();
     });
   }, []);
+
+  useEffect(() => {
+    if (!onboardingGeladen || !onboardingKlaar) return;
+    laadTekst(SLEUTELS.changelogVersie, '').then(gezien => {
+      const nieuwste = nieuwsteVersie();
+      if (gezien !== nieuwste) setNieuwInVersie(true);
+    });
+  }, [onboardingGeladen, onboardingKlaar]);
+
+  function sluitNieuwInVersie() {
+    setNieuwInVersie(false);
+    bewaarTekst(SLEUTELS.changelogVersie, nieuwsteVersie());
+  }
 
   if (!onboardingGeladen) {
     return <View style={[styles.root, { backgroundColor: colors.achtergrond }]} />;
@@ -67,6 +83,7 @@ function AppInhoud() {
       </FoutGrens>
       <BottomNav actief={actieveTab} onWissel={setActieveTab} />
       <StatusBar style={donkerActief ? 'light' : 'dark'} />
+      <ChangelogSheet zichtbaar={nieuwInVersie} onSluiten={sluitNieuwInVersie} alleenNieuwste />
     </View>
   );
 }

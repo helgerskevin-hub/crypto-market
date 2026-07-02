@@ -6,6 +6,7 @@ export const SLEUTELS = {
   onboarding: 'onboarding_klaar',
   thema: 'thema_modus',
   favorieten: 'favoriete_coins',
+  changelogVersie: 'changelog_versie_gezien',
 } as const;
 
 export async function laadLijst<T>(sleutel: string): Promise<T[]> {

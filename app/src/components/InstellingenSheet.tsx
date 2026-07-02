@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, Modal } from 'react-native';
-import { X, Smartphone, Sun, Moon } from 'lucide-react-native';
+import { X, Smartphone, Sun, Moon, FileText } from 'lucide-react-native';
 import { useTheme, ThemaModus } from '../theme/ThemeProvider';
 import { Type } from '../theme/typography';
 import { spacing, radii, shadow } from '../theme/tokens';
+import { ChangelogSheet } from './ChangelogSheet';
 
 interface Props {
   zichtbaar: boolean;
@@ -18,9 +19,11 @@ const OPTIES: { modus: ThemaModus; label: string; Icon: typeof Sun }[] = [
 
 export function InstellingenSheet({ zichtbaar, onSluiten }: Props) {
   const { colors, modus, setModus } = useTheme();
+  const [changelogOpen, setChangelogOpen] = useState(false);
 
   return (
-    <Modal visible={zichtbaar} animationType="slide" transparent onRequestClose={onSluiten}>
+    <>
+    <Modal visible={zichtbaar && !changelogOpen} animationType="slide" transparent onRequestClose={onSluiten}>
       <View style={styles.overlay}>
         <View style={[styles.vel, shadow.modal, { backgroundColor: colors.kaart }]}>
           <View style={styles.titelRij}>
@@ -62,9 +65,22 @@ export function InstellingenSheet({ zichtbaar, onSluiten }: Props) {
               );
             })}
           </View>
+
+          <Pressable
+            onPress={() => setChangelogOpen(true)}
+            accessibilityRole="button"
+            accessibilityLabel="Wijzigingen"
+            style={[styles.wijzigingenKnop, { borderColor: colors.rand }]}
+          >
+            <FileText size={18} color={colors.tekstGedimd} strokeWidth={1.75} />
+            <Text style={[Type.body, { color: colors.tekstPrimair }]}>Wijzigingen</Text>
+          </Pressable>
         </View>
       </View>
     </Modal>
+
+    <ChangelogSheet zichtbaar={changelogOpen} onSluiten={() => setChangelogOpen(false)} />
+    </>
   );
 }
 
@@ -99,6 +115,15 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: 44,
+  },
+  wijzigingenKnop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginTop: spacing.base,
+    paddingVertical: spacing.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
     minHeight: 44,
   },
 });

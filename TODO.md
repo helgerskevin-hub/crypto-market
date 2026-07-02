@@ -38,12 +38,12 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 - [x] Favorietenlijst: vaste coins markeren zodat ze altijd bovenaan de analyse staan
 - [ ] Historisch overzicht gesloten trades met winst/verlies-statistieken (trefferpercentage, gem. R/R behaald)
 - [x] Dark/light mode: systeem/licht/donker via een tandwiel-icoon in de header, opgeslagen op het toestel
-- [ ] Op het niet fullscreen scherm meer informatie bieden over waarom kopen.
-- [ ] **Coin detail-scherm full screen met grafieken**: Bij klikken op een coin opent een full-screen detail-pagina met veel meer informatie en grafieken (inspiratie: Market Mirror). Ook gewenst op portfolio kaart, oppakken samen met meer informatie over de status idee.
+- [x] Op het niet fullscreen scherm meer informatie bieden over waarom kopen.
+- [x] **Coin detail-scherm full screen met grafieken**: Bij klikken op een coin opent een full-screen detail-pagina met veel meer informatie en grafieken (inspiratie: Market Mirror). Ook gewenst op portfolio kaart, oppakken samen met meer informatie over de status idee.
 - [ ] **Meer informatie op Grote Kansen-scherm**: Het huidige scherm mist nog details. Voeg relevante info toe voor betere besluitvorming
-- [ ] **Meer informatie over de status van de trade met onderbouwing op vast houden/verkopen in je portfolio**: Bij het klikken op de trade in portfolio zie je in het full screen venster meer gedailteerde informatie
-- [ ] **Changelog in app**: Onder het settings menu een knop om de changelog bij te houden wat er allemaal veranderd is per versie. Plus bij de eerste keer opstarten van de app een pop-up window met informatie wat er nieuw is in deze versie. Direct meenemen dat er een uitgebreide changelog wordt bijgehouden in project folder als changelog.md
-- [ ] **Achtergrond informatie in app**: Nieuw scherm met meer informatie over de weergaves in de app. Hoe worden dingen berekend, wat betekenen de grafieken, marktbalke, fear index, etc. etc. etc. Compleet en grafisch weergegeven.
+- [ ] **Meer informatie over de status van de trade met onderbouwing op vast houden/verkopen in je portfolio**: Bij het klikken op de trade in portfolio zie je in het full screen venster meer gedailteerde informatie (deels gedekt door het nieuwe coin detail-scherm, dat al status/resultaat/hold-advies toont; verder uitbreiden staat nog open)
+- [x] **Changelog in app**: Onder het settings menu een knop om de changelog bij te houden wat er allemaal veranderd is per versie. Plus bij de eerste keer opstarten van de app een pop-up window met informatie wat er nieuw is in deze versie. Direct meenemen dat er een uitgebreide changelog wordt bijgehouden in project folder als changelog.md
+- [ ] **Achtergrond informatie in app**: Nieuw scherm met meer informatie over de weergaves in de app. Hoe worden dingen berekend, wat betekenen de grafieken, marktbalke, fear index, etc. etc. etc. Compleet en grafisch weergegeven met grafische voorbeelden.
 
 ### 🎯 Kevins kernvisie voor Kader
 _(Wat de app uiteindelijk moet zijn — de rode draad achter alle keuzes)_

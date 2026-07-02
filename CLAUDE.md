@@ -67,6 +67,14 @@ See `docs/github-werkwijze.md` for the full agreed workflow. Key points:
 - **Coordinate first.** Tell each other (chat/WhatsApp) what you're picking up before starting -- two Claude Code sessions working on the same files simultaneously creates hard-to-fix merge conflicts.
 - **Before starting any session:** run `git fetch origin` and check `git log --all --oneline --graph` to see what the other person may have pushed.
 
+## Version control & releases
+
+Claude is in charge of version numbering and the changelog for this project.
+
+- **Always update the changelog when a user-facing change lands**, both `CHANGELOG.md` (repo root) and the in-app source `app/src/changelog.ts` (used by the changelog screen and the "nieuw in deze versie" popup). Keep them in sync, newest entry first, Dutch text.
+- **Claude decides the version number** (`app/app.json`, `version` field) for the next release, following the existing `0.0.x` scheme unless told otherwise.
+- **Only build and publish a release APK to GitHub when explicitly asked.** Finishing a feature or a batch of fixes does not by itself warrant a release. If work has accumulated that would make a sensible release, ask the user whether they want one, don't just make it.
+
 ## Writing and language rules
 
 These rules apply everywhere: code comments, UI strings, generated reports, documentation, and any other text in this project.

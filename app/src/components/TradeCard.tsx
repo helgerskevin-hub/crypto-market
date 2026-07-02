@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, LayoutAnimation } from 'react-native';
 import { Info, CheckCircle, ChevronDown, ChevronUp, Star } from 'lucide-react-native';
 import { Trade } from '../engine/types';
-import { infoVoor } from '../engine/coinInfo';
+import { infoVoor, genereerKoopadvies } from '../engine/coinInfo';
 import { fmtPrijs, fmtRR } from '../engine/format';
 import { useTheme } from '../theme/ThemeProvider';
 import { Type } from '../theme/typography';
@@ -15,6 +15,7 @@ import { LevelRow } from './LevelRow';
 interface Props {
   trade: Trade;
   onGetrade?: (trade: Trade) => void;
+  onOpenDetail?: (trade: Trade) => void;
   favoriet?: boolean;
   onToggleFavoriet?: (symbool: string) => void;
 }
@@ -34,13 +35,21 @@ function adviesRandKleur(label: AdviesLabel, colors: ReturnType<typeof useTheme>
   return colors.letOp;
 }
 
-export function TradeCard({ trade, onGetrade, favoriet, onToggleFavoriet }: Props) {
+export function TradeCard({ trade, onGetrade, onOpenDetail, favoriet, onToggleFavoriet }: Props) {
   const { colors } = useTheme();
   const reduceMotion = useReduceMotion();
   const [uitgeklapt, setUitgeklapt] = useState(false);
   const info = infoVoor(trade.symbool);
   const advies = adviesLabel(trade);
   const randKleur = adviesRandKleur(advies, colors);
+  const koopadvies = genereerKoopadvies({
+    score: trade.score,
+    rsi: trade.rsi,
+    trendOp: trade.ema20 > trade.ema50,
+    macdBullish: trade.macdBullish,
+    volumeRatio: trade.volumeRatio,
+    highConviction: trade.highConviction,
+  });
 
   function wisselUitgeklapt() {
     if (!reduceMotion) {
@@ -51,6 +60,12 @@ export function TradeCard({ trade, onGetrade, favoriet, onToggleFavoriet }: Prop
 
   return (
     <View style={[styles.kaart, shadow.kaart, { backgroundColor: colors.kaart, borderLeftColor: randKleur }]}>
+      <Pressable
+        onPress={() => onOpenDetail?.(trade)}
+        accessibilityRole="button"
+        accessibilityLabel={`${trade.symbool} detail bekijken`}
+        disabled={!onOpenDetail}
+      >
       {/* Koptekst */}
       <View style={styles.kop}>
         <View style={styles.kopLinks}>
@@ -89,6 +104,7 @@ export function TradeCard({ trade, onGetrade, favoriet, onToggleFavoriet }: Prop
       <View style={styles.sectie}>
         <LevelRow stop={trade.stopLoss} entry={trade.entry} doel={trade.takeProfit} />
       </View>
+      </Pressable>
 
       {/* R/R + RSI */}
       <View style={styles.metaRij}>
@@ -111,12 +127,17 @@ export function TradeCard({ trade, onGetrade, favoriet, onToggleFavoriet }: Prop
         <AdviceBadge advies={advies} />
       </View>
 
-      {/* Uitklapbare redenen */}
+      {/* Uitklapbare redenen + waarom-kopen onderbouwing */}
       {uitgeklapt && (
         <View style={[styles.redenen, { backgroundColor: colors.verhoogd }]}>
           {trade.redenen.map((r, i) => (
             <Text key={i} style={[Type.caption, styles.reden, { color: colors.tekstGedimd }]}>• {r}</Text>
           ))}
+          {koopadvies.uitleg ? (
+            <Text style={[Type.caption, styles.koopadviesUitleg, { color: colors.tekstGedimd }]}>
+              {koopadvies.uitleg}
+            </Text>
+          ) : null}
         </View>
       )}
 
@@ -195,6 +216,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   reden: { lineHeight: 18 },
+  koopadviesUitleg: { lineHeight: 18, marginTop: 4 },
   actiesRij: {
     flexDirection: 'row',
     borderTopWidth: StyleSheet.hairlineWidth,

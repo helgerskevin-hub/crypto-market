@@ -19,6 +19,8 @@ import { MarktBalk } from '../components/MarktBalk';
 import { OfflineMelding } from '../components/OfflineMelding';
 import { AngstHebzucht } from '../components/AngstHebzucht';
 import { haalFearGreed } from '../engine/marketData';
+import { CoinDetailScherm } from '../components/CoinDetailScherm';
+import { CoinDetailData, vanTrade } from '../engine/coinDetailData';
 
 type Progress = { current: number; total: number; symbool: string };
 
@@ -27,6 +29,7 @@ export function MarktScreen() {
   const { state, startAnalyse } = useMarkt();
   const { isFavoriet, wisselFavoriet } = useFavorieten();
   const [getradeteTrade, setGetradeteTrade] = useState<Trade | null>(null);
+  const [detailCoin, setDetailCoin] = useState<CoinDetailData | null>(null);
   const [ververst, setVerverstState] = useState(false);
   const [fearGreed, setFearGreed] = useState<{ waarde: number; klasse: string } | null>(null);
 
@@ -91,6 +94,7 @@ export function MarktScreen() {
             <TradeCard
               trade={item}
               onGetrade={setGetradeteTrade}
+              onOpenDetail={t => setDetailCoin(vanTrade(t))}
               favoriet={isFavoriet(item.symbool)}
               onToggleFavoriet={wisselFavoriet}
             />
@@ -124,6 +128,8 @@ export function MarktScreen() {
         trade={getradeteTrade}
         onSluiten={() => setGetradeteTrade(null)}
       />
+
+      <CoinDetailScherm data={detailCoin} onSluiten={() => setDetailCoin(null)} />
     </SafeAreaView>
   );
 }

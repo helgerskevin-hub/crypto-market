@@ -16,6 +16,8 @@ import { Disclaimer } from '../components/Disclaimer';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { OfflineMelding } from '../components/OfflineMelding';
+import { CoinDetailScherm } from '../components/CoinDetailScherm';
+import { CoinDetailData, vanOpportunity } from '../engine/coinDetailData';
 
 // ---------- State machine ----------
 type KansenState =
@@ -41,7 +43,7 @@ function reducer(state: KansenState, action: Action): KansenState {
 }
 
 // ---------- OpportunityCard ----------
-function OpportunityCard({ kans }: { kans: Opportunity }) {
+function OpportunityCard({ kans, onOpenDetail }: { kans: Opportunity; onOpenDetail: (kans: Opportunity) => void }) {
   const { colors } = useTheme();
   const reduceMotion = useReduceMotion();
   const [uitgeklapt, setUitgeklapt] = useState(false);
@@ -62,6 +64,11 @@ function OpportunityCard({ kans }: { kans: Opportunity }) {
 
   return (
     <View style={[cardStyles.kaart, shadow.kaart, { backgroundColor: colors.kaart, borderLeftColor: randKleur }]}>
+      <Pressable
+        onPress={() => onOpenDetail(kans)}
+        accessibilityRole="button"
+        accessibilityLabel={`${kans.symbool} detail bekijken`}
+      >
       {/* Koptekst */}
       <View style={cardStyles.kop}>
         <View style={cardStyles.kopLinks}>
@@ -110,6 +117,7 @@ function OpportunityCard({ kans }: { kans: Opportunity }) {
           <Text style={[Type.overline, { color: colors.tekstGedimd }]}>{kans.methode.toUpperCase()}</Text>
         </View>
       </View>
+      </Pressable>
 
       {/* Uitklapbare redenen */}
       {uitgeklapt && (
@@ -209,6 +217,7 @@ export function KansenScreen() {
   const { colors } = useTheme();
   const [state, dispatch] = useReducer(reducer, { status: 'idle' });
   const [ververst, setVerverstState] = useState(false);
+  const [detailCoin, setDetailCoin] = useState<CoinDetailData | null>(null);
 
   const startScan = useCallback(async () => {
     dispatch({ type: 'START' });
@@ -302,7 +311,9 @@ export function KansenScreen() {
         <FlatList
           data={state.kansen}
           keyExtractor={item => item.symbool}
-          renderItem={({ item }) => <OpportunityCard kans={item} />}
+          renderItem={({ item }) => (
+            <OpportunityCard kans={item} onOpenDetail={k => setDetailCoin(vanOpportunity(k))} />
+          )}
           contentContainerStyle={screenStyles.lijst}
           refreshControl={
             <RefreshControl
@@ -322,6 +333,8 @@ export function KansenScreen() {
           ListFooterComponent={<Disclaimer />}
         />
       )}
+
+      <CoinDetailScherm data={detailCoin} onSluiten={() => setDetailCoin(null)} />
     </SafeAreaView>
   );
 }

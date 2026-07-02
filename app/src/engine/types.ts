@@ -4,6 +4,7 @@ export interface Candle {
   low: number;
   close: number;
   volume: number;
+  tijd?: number;
 }
 
 export interface Trade {

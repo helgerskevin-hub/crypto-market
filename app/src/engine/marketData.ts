@@ -44,6 +44,7 @@ function parseBinanceKlines(data: unknown[][]): Candle[] {
     low: parseFloat(row[3] as string),
     close: parseFloat(row[4] as string),
     volume: parseFloat(row[5] as string),
+    tijd: Number(row[0]),
   })).filter(c => !isNaN(c.close));
 }
 
@@ -73,7 +74,7 @@ export async function haalCoingeckoOhlc(symbool: string, days = 30): Promise<Can
   });
   if (!Array.isArray(data) || data.length <= EMA_LANG) return null;
   return data.map(row => ({
-    open: row[1], high: row[2], low: row[3], close: row[4], volume: 0,
+    open: row[1], high: row[2], low: row[3], close: row[4], volume: 0, tijd: row[0],
   }));
 }
 

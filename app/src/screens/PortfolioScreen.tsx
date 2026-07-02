@@ -15,14 +15,17 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { PortfolioTrade, nieuweId } from '../state/portfolioTypes';
 import { usePortfolio } from '../state/PortfolioProvider';
 import { bepaalAdvies } from '../state/advies';
+import { CoinDetailScherm } from '../components/CoinDetailScherm';
+import { CoinDetailData, vanPortfolioTrade } from '../engine/coinDetailData';
 
 // ---------- TradeRegel ----------
-function TradeRegel({ trade, livePrijs, onSluitTrade, onVerwijder, onBewerk }: {
+function TradeRegel({ trade, livePrijs, onSluitTrade, onVerwijder, onBewerk, onOpenDetail }: {
   trade: PortfolioTrade;
   livePrijs: number | undefined;
   onSluitTrade: (id: string, status: 'gewonnen' | 'verloren') => void;
   onVerwijder: (id: string) => void;
   onBewerk: (trade: PortfolioTrade) => void;
+  onOpenDetail: (trade: PortfolioTrade) => void;
 }) {
   const { colors } = useTheme();
 
@@ -58,6 +61,11 @@ function TradeRegel({ trade, livePrijs, onSluitTrade, onVerwijder, onBewerk }: {
 
   return (
     <View style={[tradeStyles.kaart, shadow.kaart, { backgroundColor: colors.kaart, borderLeftColor: statusKleur }]}>
+      <Pressable
+        onPress={() => onOpenDetail(trade)}
+        accessibilityRole="button"
+        accessibilityLabel={`${trade.symbool} detail bekijken`}
+      >
       <View style={tradeStyles.kop}>
         <View style={tradeStyles.kopLinks}>
           <Text style={[Type.sectiekop, { color: colors.tekstPrimair }]}>{trade.symbool}</Text>
@@ -120,6 +128,7 @@ function TradeRegel({ trade, livePrijs, onSluitTrade, onVerwijder, onBewerk }: {
           {trade.notitie}
         </Text>
       ) : null}
+      </Pressable>
 
       <View style={[tradeStyles.voet, { borderTopColor: colors.rand }]}>
         <Text style={[Type.caption, { color: colors.tekstGedimd }]}>{trade.datum}</Text>
@@ -445,6 +454,7 @@ export function PortfolioScreen() {
   const { trades, livePrijzen, voegTradeToe, wijzigTrade, sluitTrade, verwijderTrade, syncing, volgendeVerversing, verversPrijzen } = usePortfolio();
   const [formulierZichtbaar, setFormulierZichtbaar] = useState(false);
   const [bewerkTrade, setBewerkTrade] = useState<PortfolioTrade | null>(null);
+  const [detailCoin, setDetailCoin] = useState<CoinDetailData | null>(null);
   const [seconden, setSeconden] = useState<number | null>(null);
 
   useEffect(() => {
@@ -518,6 +528,7 @@ export function PortfolioScreen() {
               onSluitTrade={sluitTrade}
               onVerwijder={verwijderTrade}
               onBewerk={setBewerkTrade}
+              onOpenDetail={t => setDetailCoin(vanPortfolioTrade(t, livePrijzen[t.symbool]))}
             />
           )}
           contentContainerStyle={portfolioStyles.lijst}
@@ -551,6 +562,8 @@ export function PortfolioScreen() {
           setBewerkTrade(null);
         }}
       />
+
+      <CoinDetailScherm data={detailCoin} onSluiten={() => setDetailCoin(null)} />
     </SafeAreaView>
   );
 }
