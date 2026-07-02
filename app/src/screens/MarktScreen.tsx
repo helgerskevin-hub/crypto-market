@@ -15,6 +15,7 @@ import { Disclaimer } from '../components/Disclaimer';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { SkeletonCard } from '../components/SkeletonCard';
 import { MarktBalk } from '../components/MarktBalk';
+import { OfflineMelding } from '../components/OfflineMelding';
 
 type Progress = { current: number; total: number; symbool: string };
 
@@ -60,7 +61,15 @@ export function MarktScreen() {
       {/* Inhoud per state */}
       {state.status === 'idle' && <IdleView onStart={startAnalyse} />}
       {state.status === 'loading' && <LadenView progress={state.progress} />}
-      {state.status === 'error' && <FoutView melding={state.melding} lastAttempt={state.lastAttempt} onRetry={startAnalyse} />}
+      {state.status === 'error' && (
+        <OfflineMelding
+          titel="Geen marktdata"
+          beschrijving="Binance en CoinGecko zijn nu niet bereikbaar. Controleer je verbinding en probeer opnieuw."
+          melding={state.melding}
+          lastAttempt={state.lastAttempt}
+          onRetry={startAnalyse}
+        />
+      )}
       {state.status === 'success' && (
         <FlatList
           data={state.trades}
@@ -139,31 +148,6 @@ function LadenView({ progress }: { progress: Progress | null }) {
           {progress.current}/{progress.total} · {progress.symbool}
         </Text>
       )}
-    </View>
-  );
-}
-
-function FoutView({ melding, lastAttempt, onRetry }: { melding: string; lastAttempt: Date; onRetry: () => void }) {
-  const { colors } = useTheme();
-  const tijdstip = lastAttempt.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
-  return (
-    <View style={styles.midden}>
-      <Text style={[Type.titel, styles.middenTitel, { color: colors.tekstPrimair }]}>Geen marktdata</Text>
-      <Text style={[Type.body, styles.middenBody, { color: colors.tekstGedimd }]}>
-        Binance en CoinGecko zijn nu niet bereikbaar. Controleer je verbinding en probeer opnieuw.
-      </Text>
-      <Pressable
-        style={[styles.ctaKnop, { backgroundColor: colors.cta }]}
-        onPress={onRetry}
-        accessibilityRole="button"
-        accessibilityLabel="Opnieuw proberen"
-      >
-        <RefreshCw size={16} color="white" strokeWidth={2} />
-        <Text style={[Type.body, styles.ctaTekst]}>Opnieuw proberen</Text>
-      </Pressable>
-      <Text style={[Type.caption, { color: colors.tekstGedimd, marginTop: spacing.base }]}>
-        Laatste poging {tijdstip} · {melding}
-      </Text>
     </View>
   );
 }

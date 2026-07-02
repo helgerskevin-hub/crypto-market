@@ -37,9 +37,11 @@ _(Dingen die je leuk of handig zou vinden, nog niet ingepland.)_
 - [ ] Prijsalerts instellen: notificatie als een coin een zelf gekozen prijs bereikt
 - [ ] Favorietenlijst: vaste coins markeren zodat ze altijd bovenaan de analyse staan
 - [ ] Historisch overzicht gesloten trades met winst/verlies-statistieken (trefferpercentage, gem. R/R behaald)
-- [ ] Dark/light mode
-- [ ] **Coin detail-scherm full screen met grafieken**: Bij klikken op een coin opent een full-screen detail-pagina met veel meer informatie en grafieken (inspiratie: Market Mirror). Ook gewenst op portfolio kaart
+- [x] Dark/light mode: systeem/licht/donker via een tandwiel-icoon in de header, opgeslagen op het toestel
+- [ ] Op het niet fullscreen scherm meer informatie bieden over waarom kopen.
+- [ ] **Coin detail-scherm full screen met grafieken**: Bij klikken op een coin opent een full-screen detail-pagina met veel meer informatie en grafieken (inspiratie: Market Mirror). Ook gewenst op portfolio kaart, oppakken samen met meer informatie over de status idee.
 - [ ] **Meer informatie op Grote Kansen-scherm**: Het huidige scherm mist nog details. Voeg relevante info toe voor betere besluitvorming
+- [ ] **Meer informatie over de status van de trade met onderbouwing op vast houden/verkopen in je portfolio**: Bij het klikken op de trade in portfolio zie je in het full screen venster meer gedailteerde informatie
 
 ### 🎯 Kevins kernvisie voor Kader
 _(Wat de app uiteindelijk moet zijn — de rode draad achter alle keuzes)_
@@ -69,11 +71,12 @@ _(Gevonden op marketmirror.com — functies die het overwegen waard zijn voor Ka
 - [x] **eToro API** onderzoeken: kunnen we tradable coins automatisch ophalen zodat de Grote Kansen-scan alleen beschikbare coins toont? (opgelost via statische _ETORO_TRADABLE-set)
 - [x] **Copy trading stappen** vereenvoudigen: stappenplan in de app hoe je een signaal op eToro uitvoert
 - [x] **Portfoliosamenvatting**: totale inleg, huidige waarde en winst/verlies zichtbaar op het Mijn Trades-scherm
+- [ ] **Mogelijkheid om een gemaakte trade aan te passen in portfolio**: Knop met **aanpassen** waar je je stoploss en takeprofit kan aanpassen
 
 ### Kwaliteit & stabiliteit
 - [ ] Handmatige smoke-test uitvoeren na elke grote wijziging
-- [ ] Error boundary toevoegen zodat één kapotte component niet de hele app neergooit
-- [ ] Offline-modus: nette foutmelding als de telefoon geen internet heeft i.p.v. een lege pagina
+- [x] Error boundary toevoegen zodat één kapotte component niet de hele app neergooit
+- [x] Offline-modus: nette foutmelding als de telefoon geen internet heeft i.p.v. een lege pagina (Markt en Kansen delen nu één OfflineMelding-component)
 
 ### Smoke-test checklist (Kader app)
 _(Doorloop dit na elke grote wijziging om regressies te voorkomen.)_
