@@ -15,6 +15,7 @@ import { LevelRow } from '../components/LevelRow';
 import { Disclaimer } from '../components/Disclaimer';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { SkeletonCard } from '../components/SkeletonCard';
+import { OfflineMelding } from '../components/OfflineMelding';
 
 // ---------- State machine ----------
 type KansenState =
@@ -288,25 +289,13 @@ export function KansenScreen() {
       )}
 
       {state.status === 'error' && (
-        <View style={screenStyles.midden}>
-          <Text style={[Type.titel, screenStyles.middenTitel, { color: colors.tekstPrimair }]}>
-            Scan mislukt
-          </Text>
-          <Text style={[Type.body, screenStyles.middenBody, { color: colors.tekstGedimd }]}>
-            CoinGecko of Binance is niet bereikbaar. Controleer je verbinding.
-          </Text>
-          <Pressable
-            style={[screenStyles.ctaKnop, { backgroundColor: colors.cta }]}
-            onPress={startScan}
-            accessibilityRole="button"
-          >
-            <RefreshCw size={16} color="white" strokeWidth={2} />
-            <Text style={[Type.body, screenStyles.ctaTekst]}>Opnieuw proberen</Text>
-          </Pressable>
-          <Text style={[Type.caption, { color: colors.tekstGedimd, marginTop: spacing.base }]}>
-            {state.lastAttempt.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })} · {state.melding}
-          </Text>
-        </View>
+        <OfflineMelding
+          titel="Scan mislukt"
+          beschrijving="CoinGecko of Binance is niet bereikbaar. Controleer je verbinding."
+          melding={state.melding}
+          lastAttempt={state.lastAttempt}
+          onRetry={startScan}
+        />
       )}
 
       {state.status === 'success' && (
